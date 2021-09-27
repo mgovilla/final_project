@@ -1,0 +1,15 @@
+ideas:
+improve the tech suite website
+something along the lines of when2meet
+resume builder
+- master list with different projects/experiences
+- other page to create new resume that allows you to drag and drop
+- review section to add comments
+
+games:
+- slitherio
+- skribblio
+
+want to learn:
+- websockets
+- typescript
