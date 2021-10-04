@@ -1,19 +1,19 @@
 require('dotenv').config()
-const { MongoClient, ObjectId } = require('mongodb');
-const path = require('path')
-const express = require('express')
-const passport = require('passport')
-const session = require('express-session');
+import { AnyError, MongoClient, ObjectId } from 'mongodb';
+import path from 'path';
+import express from 'express';
+import passport from 'passport';
+import session from 'express-session';
 var GitHubStrategy = require('passport-github').Strategy;
 
 const app = express()
-let port = process.env.PORT;
-if (port == null || port == "") {
+let port = parseInt(process.env.PORT);
+if (port == null || isNaN(port)) {
     port = 5000;
 }
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
 
 /* MIDDLEWARE SETUP */
 app.use(express.static('public'))
@@ -24,6 +24,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.json())
 
+declare type user = {
+    _id: string,
+    name: string,
+    photo: string
+}
+
 /* USING GITHUB STRATEGY */
 passport.use(new GitHubStrategy(
     {
@@ -32,9 +38,9 @@ passport.use(new GitHubStrategy(
         callbackURL: process.env.CALLBACK_URL
     },
 
-    function (accessToken, refreshToken, profile, cb) {
-        photo = profile.photos.length > 0 ? profile.photos[0].value : undefined;
-        user = { _id: profile.id, name: profile.displayName, photo }
+    function (_accessToken: string, _refreshToken: string, profile: { photos: any[]; id: any; displayName: any; }, cb: (arg0: AnyError, arg1: user) => void) {
+        let photo = profile.photos.length > 0 ? profile.photos[0].value : undefined;
+        let user = { _id: profile.id, name: profile.displayName, photo }
         client.db("db").collection("users").updateOne({ _id: { $eq: profile.id } }, { $set: user }, { upsert: true }, (err) => {
             cb(err, user)
         })
@@ -42,7 +48,7 @@ passport.use(new GitHubStrategy(
 ));
 
 /* User Middleware */
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function (user: user, done) {
     done(null, user._id);
 });
 
