@@ -54,6 +54,7 @@ passport_1.default.deserializeUser(function (id, done) {
     client.db("db").collection("users").findOne({ _id: id }, (err, user) => { done(err, user); });
 });
 app.get('/logout', (req, res) => {
+    req.user;
     req.logout();
     req.session.destroy(function () {
         console.log("destroying the session");

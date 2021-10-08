@@ -57,6 +57,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 app.get('/logout', (req, res) => {
+    req.user
     req.logout()
     req.session.destroy(function () {
         console.log("destroying the session")
