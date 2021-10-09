@@ -1,12 +1,11 @@
 
-declare type user = {
-    _id: string,
-    name: string,
-    photo: string
-}
-
 declare namespace Express {
+    interface User {
+        _id: string,
+        name: string,
+        photo: string
+    }
     export interface Request {
-       user?: user
+       user?: User | undefined;
     }
  }

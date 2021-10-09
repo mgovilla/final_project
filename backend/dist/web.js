@@ -51,7 +51,10 @@ passport_1.default.serializeUser(function (user, done) {
     done(null, user._id);
 });
 passport_1.default.deserializeUser(function (id, done) {
-    client.db("db").collection("users").findOne({ _id: id }, (err, user) => { done(err, user); });
+    client.db("db").collection("users").findOne({ _id: id }, (err, user) => {
+        // assert the returned document is a user
+        done(err, user);
+    });
 });
 app.get('/logout', (req, res) => {
     req.logout();
