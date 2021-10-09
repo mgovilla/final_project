@@ -66,6 +66,153 @@ app.get('/auth', passport_1.default.authenticate('github', {
     successRedirect: 'http://localhost:3000',
     failureRedirect: 'http://localhost:3000'
 }));
+// Get all resumes owned by the user
+app.get('/resumes', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('resumes')
+        .find({ author_id: req.user._id })
+        .toArray()
+        .then((resumes) => res.send(resumes))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Get a single resume by ID
+app.get('/resumes/:resumeID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('resumes')
+        .find({ _id: req.params.resumeID })
+        .toArray()
+        .then((resumes) => res.send(resumes))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Create a new resume
+app.post('/resumes', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    let resume = {
+        title: req.body.title,
+        created_at: req.body.createdAt,
+        author_id: req.user._id,
+        content: req.body.content
+    };
+    try {
+        client.db('db')
+            .collection('resumes')
+            .insertOne(resume)
+            .then((resume) => res.send(resume));
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+// Update the contents in a resume
+app.post('/resumes/:resumeID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('resumes')
+        .updateOne({ _id: new mongodb_1.ObjectId(req.params.resumeID) }, { $set: { content: req.body.content } })
+        .then(() => res.sendStatus(200))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Delete a resume by its ID
+app.delete('/resumes/:resumeID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('resumes')
+        .findOneAndDelete({ _id: new mongodb_1.ObjectId(req.params.resumeID), owner: req.user._id })
+        .then(() => res.sendStatus(204))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Get all modules in a resume
+app.get('/modules/:resumeID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    //First retrieve the resume
+    client.db('db')
+        .collection('resumes')
+        .find({ _id: req.params.resumeID })
+        .toArray()
+        .then((resume) => {
+        //Get the list of module ids from the resume, use those values to return an array of the module objects
+        client.db('db')
+            .collection('modules')
+            .find({ _id: { $in: resume[0].content } })
+            .toArray()
+            .then((moduleList) => res.send(moduleList));
+    })
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Create a new module
+app.post('/modules', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    let module = {
+        type: req.body.type,
+        value: req.body.value,
+        in_use: req.body.in_use,
+    };
+    try {
+        client.db('db')
+            .collection('modules')
+            .insertOne(module)
+            .then((module) => res.send(module));
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+// Get all modules in database
+app.get('/modules', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('modules')
+        .find({})
+        .toArray()
+        .then((modules) => res.send(modules))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
 // Connect to the client
 client.connect((err) => __awaiter(void 0, void 0, void 0, function* () {
     if (err)
