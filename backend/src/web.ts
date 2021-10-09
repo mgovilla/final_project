@@ -4,6 +4,7 @@ import path from 'path';
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
+import { ObjectIdLike } from 'bson';
 var GitHubStrategy = require('passport-github').Strategy;
 
 const app = express()
@@ -81,7 +82,9 @@ app.get('/resumes', (req, res) => {
         .collection('resumes')
         .find({ author_id: req.user._id })
         .toArray()
-        .then((resumes) => res.send(resumes))
+        .then((resumes) => {
+            res.send(resumes)
+        })
         .catch(err => {
             console.log(err); 
             res.sendStatus(500)
@@ -97,7 +100,7 @@ app.get('/resumes/:resumeID', (req, res) => {
 
     client.db('db')
         .collection('resumes')
-        .find({ _id: req.params.resumeID })
+        .find({ _id: new ObjectId(req.params.resumeID),  author_id: req.user._id })
         .toArray()
         .then((resumes) => res.send(resumes))
         .catch(err => {
@@ -140,7 +143,7 @@ app.post('/resumes/:resumeID', (req, res) => {
 
     client.db('db')
         .collection('resumes')
-        .updateOne({ _id: new ObjectId(req.params.resumeID) }, { $set: { content: req.body.content } })
+        .updateOne({ _id: new ObjectId(req.params.resumeID) }, { $set: { content: req.body.content} })
         .then(() => res.sendStatus(200))
         .catch(err => { 
             console.log(err); 
@@ -158,8 +161,8 @@ app.delete('/resumes/:resumeID', (req, res) => {
 
     client.db('db')
         .collection('resumes')
-        .findOneAndDelete({ _id: new ObjectId(req.params.resumeID), owner: req.user._id })
-        .then(() => res.sendStatus(204))
+        .findOneAndDelete({ _id: new ObjectId(req.params.resumeID), author_id: req.user._id })
+        .then((resume) => res.send(resume))
         .catch(err => { 
             console.log(err); 
             res.sendStatus(500) 
@@ -176,13 +179,15 @@ app.get('/modules/:resumeID', (req, res) => {
     //First retrieve the resume
     client.db('db')
         .collection('resumes')
-        .find({_id: req.params.resumeID})
+        .find({_id: new ObjectId(req.params.resumeID) })
         .toArray()
         .then((resume) => {
             //Get the list of module ids from the resume, use those values to return an array of the module objects
+            let content = resume[0].content.map((id:string) => new ObjectId(id))
+
             client.db('db')
                 .collection('modules')
-                .find({_id: {$in: resume[0].content}})
+                .find({_id: {$in: content}})
                 .toArray()
                 .then((moduleList) => res.send(moduleList))
         })
