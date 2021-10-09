@@ -1,5 +1,3 @@
-import 'remirror/styles/all.css';
-
 import Editor from './components/Editor';
 
 function App() {

@@ -1,7 +1,10 @@
-import React, { useCallback } from 'react';
-import { BoldExtension, ItalicExtension } from 'remirror/extensions';
-import { EditorComponent, Remirror, useActive, useChainedCommands, useCommands, useHelpers, useKeymap, useRemirror } from '@remirror/react';
-import { WysiwygEditor } from '@remirror/react-editors/wysiwyg'
+import React, { useCallback, useEffect } from 'react';
+import { wysiwygPreset } from 'remirror/extensions';
+import { EditorComponent, Remirror, useHelpers, useKeymap, useRemirror, ThemeProvider, useEditorState } from '@remirror/react';
+import { TopToolbar, BubbleMenu } from './Menu'
+
+import { AllStyledComponent } from '@remirror/styles/emotion';
+
 // Hooks can be added to the context without the need for creating custom components
 const hooks = [
     () => {
@@ -20,36 +23,32 @@ const hooks = [
         // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS
         useKeymap('Mod-s', handleSaveShortcut);
     },
+    () => {
+        const { doc } = useEditorState()
+
+        useEffect(() => {
+            console.log(doc.toJSON())
+        }, [doc])
+    }
 ];
 
-// Menu component to render above the editing window
-export const Menu = () => {
-    // Access the commands and the activity status of the editor.
-    const chain = useChainedCommands();
-    const active = useActive();
-    const { toggleBold } = useCommands();
-
-    return (
-        <button onClick={() => chain.toggleBold().focus().run()} 
-                disabled={toggleBold.enabled() === false} 
-                style={{ fontWeight: active.bold() ? 'bold' : undefined }}>
-            B
-        </button>
-    );
-};
-
 function Editor() {
+    var extensions = useCallback(() => [...wysiwygPreset()], []);
+
     const { manager, state } = useRemirror({
-        extensions: () => [new BoldExtension(), new ItalicExtension()],
+        extensions,
     });
 
     return (
-        <div className="remirror-theme">
-            <Remirror manager={manager} initialContent={state} hooks={hooks}>
-                <EditorComponent />
-                <Menu />
-            </Remirror>
-        </div>
+        <AllStyledComponent>
+            <ThemeProvider>
+                <Remirror manager={manager} initialContent={state} hooks={hooks}>
+                    <TopToolbar />
+                    <EditorComponent />
+                    <BubbleMenu />
+                </Remirror>
+            </ThemeProvider>
+        </AllStyledComponent>
     );
 }
 
