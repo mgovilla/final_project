@@ -4,6 +4,11 @@ import { EditorComponent, Remirror, useHelpers, useKeymap, useRemirror, ThemePro
 import { TopToolbar, BubbleMenu } from './Menu'
 
 import { AllStyledComponent } from '@remirror/styles/emotion';
+import { ProsemirrorNode } from 'prosemirror-suggest';
+
+import { debounce } from '../util/debounce';
+
+const DEBOUNCE_SAVE_DELAY_MS = 250;
 
 // Hooks can be added to the context without the need for creating custom components
 const hooks = [
@@ -26,8 +31,13 @@ const hooks = [
     () => {
         const { doc } = useEditorState()
 
+        const debouncedSave = useCallback(
+            debounce(async (newDoc: ProsemirrorNode<any>) => {
+                console.log(newDoc.toJSON())
+            }, DEBOUNCE_SAVE_DELAY_MS), []);
+
         useEffect(() => {
-            console.log(doc.toJSON())
+            debouncedSave(doc)
         }, [doc])
     }
 ];
