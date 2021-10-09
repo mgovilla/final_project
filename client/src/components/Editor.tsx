@@ -42,11 +42,16 @@ const hooks = [
     }
 ];
 
-function Editor() {
-    var extensions = useCallback(() => [...wysiwygPreset()], []);
+declare interface EditorProps{
+    initialContent?: any
+}
 
+// editor can take in an initial state to render
+function Editor(props: EditorProps) {
+    var extensions = useCallback(() => [...wysiwygPreset()], []);
     const { manager, state } = useRemirror({
         extensions,
+        content: props.initialContent
     });
 
     return (
