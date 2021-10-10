@@ -99,9 +99,17 @@ app.get('/resumes/:resumeID', (req, res) => {
         return
     }
 
+    var id : ObjectId
+    try {
+        id = new ObjectId(req.params.resumeID)
+    } catch(e) {
+        res.sendStatus(400)
+        return
+    }
+
     client.db('db')
         .collection('resumes')
-        .find({ _id: new ObjectId(req.params.resumeID),  author_id: req.user._id })
+        .find({ _id: id,  author_id: req.user._id })
         .toArray()
         .then((resumes) => res.send(resumes))
         .catch(err => {
