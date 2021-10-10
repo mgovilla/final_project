@@ -57,6 +57,7 @@ passport_1.default.deserializeUser(function (id, done) {
     });
 });
 app.get('/logout', (req, res) => {
+    req.user;
     req.logout();
     req.session.destroy(function () {
         console.log("destroying the session");
@@ -66,7 +67,7 @@ app.get('/logout', (req, res) => {
 });
 // Callback URL from github
 app.get('/auth', passport_1.default.authenticate('github', {
-    successRedirect: 'http://localhost:3000',
+    successRedirect: 'http://localhost:3000/home',
     failureRedirect: 'http://localhost:3000'
 }));
 // Get all resumes owned by the user

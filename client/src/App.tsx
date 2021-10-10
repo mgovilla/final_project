@@ -1,26 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import Remix from "./pages/Remix";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   // change when going to production
-  let uri = encodeURI(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID_LOCAL}&redirect_uri=${process.env.REACT_APP_GITHUB_CALLBACK}`)
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href={uri}
-          rel="noreferrer"
-        >
-          Basic Login
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/home">
+          <Home />
+        </Route>
+        <Route path="/remix">
+          <Remix />
+        </Route>
+        <Route path="/">
+          <Login />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
