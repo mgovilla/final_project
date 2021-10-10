@@ -1,26 +1,30 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { NavBar } from './components/NavBar';
+import { AddResume, RecentResume, ResumeListItem } from './components/Files'
 
 function App() {
-  // change when going to production
-  let uri = encodeURI(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID_LOCAL}&redirect_uri=${process.env.REACT_APP_GITHUB_CALLBACK}`)
-  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href={uri}
-          rel="noreferrer"
-        >
-          Basic Login
-        </a>
-      </header>
+      <NavBar/>
+      <div className="RecentSection">
+        <h1>Recent</h1> 
+        <div className='recentResumeList'>
+          <AddResume/>
+          <RecentResume title='Recent Resume 1'/>
+        </div>
+      </div>
+      <div className="ResumeList">
+        <h1>Resumes</h1>
+        <ResumeListItem title='Resume 1'/>
+        <ResumeListItem title='Resume 1'/>
+        <ResumeListItem title='Resume 1'/>
+        <ResumeListItem title='Resume 1'/>
+
+      </div>
+      
+        
     </div>
   );
 }

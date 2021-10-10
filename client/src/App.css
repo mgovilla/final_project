@@ -1,38 +1,59 @@
-.App {
+html, body {
+  background: #eeeeee;
+}
+
+.btn{
+  background-color: #175c9c;
+  border: 0;
+  font-size: 24px;
+  color: #ffffff;
+  width: 5rem;
+  border-radius: 10px;
+  align-items: center;
+  margin: 1rem;
+}
+.btn:hover{
+  background-color: #327abd;
+}
+
+.resumeListItem{
+  width: 90%;
+  height: 3rem;
+  border-radius: 5px;
+  background-color: #ffffff;
+  align-items: center;
+  box-shadow: 5px 5px 5px #00000005;
+  padding-left: 1px;
+  margin: 10px;
+}
+
+.recentResumeList{
+  
+}
+
+.recentResume{
+  width: 10rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.rectangle {
+  display: inline-block;
+  width: 100px;
+  height: 150px;
+  background: #ffffff;
+  box-shadow: 5px 5px 5px #00000005;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.recentResumeTitle{
+  margin-top:0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.addRectangle{
+  display: inline-block;
+  width: 100px;
+  height: 150px;
+  background: #ffffff52;
+  stroke-width: 2px;
+  stroke: #808080;
+  box-shadow: 5px 5px 5px #00000010;
 }
