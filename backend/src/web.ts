@@ -67,7 +67,7 @@ app.get('/logout', (req, res) => {
 // Callback URL from github
 app.get('/auth',
     passport.authenticate('github', {
-        successRedirect: 'http://localhost:3000',
+        successRedirect: 'http://localhost:3000/home',
         failureRedirect: 'http://localhost:3000'
     })
 );

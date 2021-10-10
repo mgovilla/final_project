@@ -1,33 +1,22 @@
-import React from 'react';
-import { EndPoint} from "./endpoint";
 import './App.css';
 import Remix from "./pages/Remix";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   // change when going to production
-  let uri = encodeURI(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID_LOCAL}&redirect_uri=${process.env.REACT_APP_GITHUB_CALLBACK}`)
-  // TODO: Add the login requirement
-  let endpoint = new EndPoint()
-
   return (
     <Router>
-      <div>
-        <Link to="/">Home</Link>
-      </div>
-      <div>
-        <Link to="/Remix">Remix</Link>
-      </div>
-
-      <hr />
-
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/home">
           <Home />
         </Route>
-        <Route path="/Remix">
+        <Route path="/remix">
           <Remix />
+        </Route>
+        <Route path="/">
+          <Login />
         </Route>
       </Switch>
     </Router>
