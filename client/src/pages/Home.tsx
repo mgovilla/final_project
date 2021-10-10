@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { fetcher, EndPoint } from '../util/endpoint'
 import { useState, useCallback } from 'react'
 import Modal from 'react-modal'
-import { ResumeForm } from '../components/resumeForm'
+import { ResumeForm } from '../components/ResumeForm'
 
 export default function Home() {
     const { data: resumes, error, mutate } = useSWR('/resumes', fetcher('GET'))

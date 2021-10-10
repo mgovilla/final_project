@@ -35,7 +35,7 @@ class MenuLinks extends React.Component<Props, States> {
   }
 
   render() {
-    let links = this.state.links.map((link, i) => <li ref={(i + 1).toString()}><i aria-hidden="true"></i><a href={link.link} target="_blank">{link.text}</a></li>);
+    let links = this.state.links.map((link, i) => <li ref={(i + 1).toString()}><i aria-hidden="true"></i><a href={link.link} target="_blank" rel="noreferrer">{link.text}</a></li>);
     return (
       <div className={this.props.menuStatus} id='menu'>
         <ul>
