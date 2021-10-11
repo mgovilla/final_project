@@ -42,7 +42,7 @@ const hooks = [
     }
 ];
 
-declare interface EditorProps{
+declare interface EditorProps {
     initialContent?: any
 }
 

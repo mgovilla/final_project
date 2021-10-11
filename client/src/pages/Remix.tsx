@@ -5,6 +5,9 @@ import { Redirect, useParams } from 'react-router';
 import { fetcher } from '../util/endpoint';
 import useSWR from 'swr'
 import Resume from '../components/Resume';
+import { createContext } from "react"
+
+export const ResumeContext = createContext({})
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
@@ -20,7 +23,9 @@ function Remix() {
   return (
     <>
       <MenuLinks menuStatus="filler" />
-      <Resume resume={data}></Resume>
+      <ResumeContext.Provider value={data}>
+        <Resume />
+      </ResumeContext.Provider>
     </>
   )
 }
