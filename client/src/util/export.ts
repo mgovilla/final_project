@@ -1,21 +1,20 @@
 import { jsPDF } from "jspdf";
 
 async function exportPDF(element: HTMLElement) {
-    const doc = new jsPDF('p', 'px', 'a4');
+    const doc = new jsPDF('p', 'pt', 'a4');
     
-    // let pageHeight= doc.internal.pageSize.height;
+    element.style.color = 'black';
+    element.style.width = '600px';
+    element.style.margin = '100px';
 
-    // let htmlHeight = element.offsetHeight
-
-    // var totalPDFPages = Math.ceil(htmlHeight/pageHeight)-1;
-
-    // for (var i = 1; i <= totalPDFPages; i++) { 
-    //   doc.addPage();
-    // }
-
-    await doc.html(element);
+    await doc.html(element, {
+        html2canvas: {
+            // insert html2canvas options here, e.g.
+            scale: 0.75,
+        }
+    });
     doc.save('resume.pdf'); // save / download
-    doc.output('dataurlnewwindow'); // just open it
+    // doc.output('dataurlnewwindow'); // just open it
 }
 
 export default exportPDF;
