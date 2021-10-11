@@ -54,13 +54,13 @@ class EndPoint {
   }
 
   //create a new module
-  async newModule(module: any) {
+  static async newModule(module: any) {
     let response = await fetch('/modules', { credentials: 'include', method: 'POST', body: JSON.stringify(module), headers: { 'Content-Type': 'application/json' } })
     let newModule = await response.json()
 
     return newModule
   }
-
+  
 }
 
 export {

@@ -1,7 +1,8 @@
 import React from 'react';
 
 interface Props {
-  text: string;
+  title: string;
+  content: string;
 }
 
 interface States {
@@ -16,7 +17,7 @@ class Module extends React.Component<Props, States> {
 
   render() {
     return (
-        <li>{this.props.text}</li>
+        <li>{this.props.title}</li>
     )
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import InfoSection from './InfoSection';
+import Module from './Module';
 
 interface Props {
 }
@@ -80,7 +81,7 @@ class Sidebar extends React.Component<Props, States> {
     return (
       <div id="menu">
         <ul>
-          {infosections}
+          { infosections }
         </ul>
       </div>
     )

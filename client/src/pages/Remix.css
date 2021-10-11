@@ -1,6 +1,6 @@
   body {
     background-color:  #F2F2F2;
-    color: white;
+    color: black;
     margin: 0;
     box-sizing: border-box;
   } 
@@ -158,6 +158,27 @@
 
   #modules.notopen {
     transform: translateX(-100%);
+  }
+
+  #addButton {
+    color: green;
+  }
+
+  #closeModal {
+    float: right;
+    background-color: red;
+    border-radius: 3px 3px 3px 3px;
+    padding: 5px 10px;
+    border: none;
+  }
+
+  #submitButton {
+    float: right;
+    background-color: green;
+    color: white;
+    border-radius: 3px 3px 3px 3px;
+    padding: 5px 10px;
+    border: none;
   }
   
   .fa {
