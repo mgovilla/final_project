@@ -77,7 +77,7 @@ class Sidebar extends React.Component<Props, States> {
   }
 
   render() {
-    let infosections = pms.map((pm, i) => <InfoSection onClick={() => this.setState({ active: i })} isOpen={i == this.state.active} sectionTitle={sectionTitles[i]} moduleContent={pms[i]} />);
+    let infosections = pms.map((pm, i) => <InfoSection onClick={() => this.setState({ active: i })} isOpen={i == this.state.active} sectionTitle={sectionTitles[i]} moduleContent={pms[i]} sectionType={i} />);
     return (
       <div id="menu">
         <ul>

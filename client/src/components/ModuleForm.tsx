@@ -3,7 +3,8 @@ import Editor from "./Editor";
 
 /* COMPONENT TO CREATE A NEW RESUME */
 declare interface ModuleFormProps{
-    handleSubmit: (s: string, e:any) => void
+    handleSubmit: (t: number, s: string, e : any) => void,
+    st: number
 }
 
 function ModuleForm(props: ModuleFormProps) {
@@ -19,7 +20,7 @@ function ModuleForm(props: ModuleFormProps) {
     }, [])
 
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-        props.handleSubmit(title, content)
+        props.handleSubmit(props.st, title, content)
         e.preventDefault()
         // Route to the new page
     }, [props, title, content])

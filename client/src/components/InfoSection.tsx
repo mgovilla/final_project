@@ -13,6 +13,7 @@ interface Props {
   moduleContent: string[];
   onClick: React.MouseEventHandler<HTMLLIElement>;
   isOpen: boolean;
+  sectionType: number;
 }
 
 /*
@@ -23,12 +24,12 @@ interface States {
 
 export default function InfoSection(props : Props) {
 
-  const { data: modules, mutate } = useSWR('/modules', fetcher('GET'))
+  const { data: modules, mutate, error } = useSWR('/modules', fetcher('GET'))
   const [open, setOpen] = useState(false)
 
-  var handleAdd = useCallback(async (s: string, e : any) => {
+  var handleAdd = useCallback(async (t: number, s: string, e : any) => {
     console.log(`create new module: ${s}`)
-    await EndPoint.newModule({ title: s, content: e });
+    await EndPoint.newModule({type: t, value: {title: s, content: e }});
     setOpen(false)
     mutate()
     // redirect to the remix page
@@ -41,92 +42,41 @@ export default function InfoSection(props : Props) {
       <li id="addButton" onClick={() => setOpen(true)}>Add Module</li>
       <Modal isOpen={open} contentLabel="create new module">
         <button id="closeModal" onClick={() => setOpen(false)}>&times;</button>
-        <ModuleForm handleSubmit={ handleAdd } />
+        <ModuleForm handleSubmit={ handleAdd } st={props.sectionType} />
       </Modal>
     </>)
-  console.log(modules)
-  moduleElements.push(...props.moduleContent.map((mc, i) => <Module title={mc} content={""} />));
-  return (
-    <div>
-      <li onClick={props.onClick}>{props.sectionTitle}</li>
-      <div className={menuStatus} id="modules">
-        <ul>
-          {moduleElements}
-        </ul>
-      </div>
-    </div>
-  )
-}
-  
+  let formattedModules: any[] = [];
   /*
-  let menuStatus = props.isOpen ? 'isopen' : 'notopen';
-  let moduleElements: JSX.Element[] = [];
-  moduleElements.push(
-    <>
-      <li id="addButton" onClick={() => setOpen(true)}>Add Module</li>
-      <Modal isOpen={open} contentLabel="create new module">
-        <button id="closeModal" onClick={() => setOpen(false)}>&times;</button>
-        <ModuleForm handleSubmit={ handleAdd } />
-      </Modal>
-    </>)
-  moduleElements.push(...props.moduleContent.map((mc, i) => <Module title={mc} content={""} />));
-  return (
+  for (var j = 0; j < modules.length; j++) {
+    if (modules[j].type == props.sectionType) {
+      moduleThings.push(modules[j]);
+    }
+  }
+  */
+  if (!error && modules) {
+    console.log(modules.length)
+    for (var j = 0; j < modules.length; j++) {
+      if (modules[j].type == props.sectionType) {
+        formattedModules.push(modules[j])
+        console.log(formattedModules)
+      }
+    }
+  }
+  moduleElements.push(...formattedModules.map((fm, i) => <Module title={formattedModules[i].value.title} content={""} />));
+  if (!error && !modules) return <p>Loading</p>
+  else return (
     <div>
+      {!error && (
+      <div>
       <li onClick={props.onClick}>{props.sectionTitle}</li>
       <div className={menuStatus} id="modules">
         <ul>
           {moduleElements}
         </ul>
       </div>
+      </div>
+      )}
     </div>
   )
 }
-*/
-/*
-class InfoSection extends React.Component<Props, States> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      modalOpen: false
-    }
-
-    const { data: modules, mutate } = useSWR('/modules', fetcher('GET'))
-    const [open, setOpen] = useState(false)
-
-    var handleAdd = useCallback(async (s: string, e : any) => {
-    console.log(`create new module: ${s}`)
-    await EndPoint.newModule({ title: s, content: e });
-    mutate()
-    // redirect to the remix page
-  }, [mutate])
-  }
   
-  
-
-  render() {
-    let menuStatus = this.props.isOpen ? 'isopen' : 'notopen';
-    let modules: JSX.Element[] = [];
-    modules.push(
-      <>
-        <li id="addButton" onClick={() => this.setState({ modalOpen: true })}>Add Module</li>
-        <Modal isOpen={this.state.modalOpen} contentLabel="create new module">
-          <button id="closeModal" onClick={() => this.setState({modalOpen: false})}>&times;</button>
-          <ModuleForm handleSubmit={ this.handleAdd() } />
-        </Modal>
-      </>)
-    modules.push(...this.props.moduleContent.map((mc, i) => <Module title={mc} content={""} />));
-    return (
-      <div>
-        <li onClick={this.props.onClick}>{this.props.sectionTitle}</li>
-        <div className={menuStatus} id="modules">
-          <ul>
-            {modules}
-          </ul>
-        </div>
-      </div>
-    )
-  }
-}
-
-export default InfoSection;
-*/
