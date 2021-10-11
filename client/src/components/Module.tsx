@@ -21,8 +21,8 @@ class Module extends React.Component<Props, States> {
   // static contextType = ResumeContext
   // declare context: React.ContextType<typeof ResumeContext>
   handleDelete: React.MouseEventHandler<HTMLButtonElement> = (async () => {
-    console.log('delete module: ' + module.id);
-    await EndPoint.deleteModule(module.id);
+    console.log('delete module: ' + this.props.module._id);
+    await EndPoint.deleteModule(this.props.module._id);
   });
   // Toggle the module to be in the resume or not
   handleToggle() {
@@ -30,7 +30,7 @@ class Module extends React.Component<Props, States> {
 
   render() {
     return (
-      <li>{this.props.module.title}<br/><button className="toggleButton" onClick={this.handleToggle}>Toggle</button><button className="deleteButton">Delete</button></li>
+      <li>{this.props.module.title}<br/><button className="toggleButton" onClick={this.handleToggle}>Toggle</button><button className="deleteButton" onClick={this.handleDelete}>Delete</button></li>
     )
   }
 }

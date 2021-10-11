@@ -6,6 +6,7 @@ namespace models {
     }
     
     declare interface Module { 
+        _id: string,
         type: number, 
         title: string, 
         content: any, 
