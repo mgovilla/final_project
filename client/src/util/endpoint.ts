@@ -53,6 +53,13 @@ class EndPoint {
     return modules
   }
 
+  //delete a resume using the resume ID
+  static async deleteModule(resumeID: string) {
+    let response = await fetch(`/resumes/${resumeID}`, { credentials: 'include', method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+
+    return response
+  }
+
   //create a new module
   static async newModule(module: any) {
     let response = await fetch('/modules', { credentials: 'include', method: 'POST', body: JSON.stringify(module), headers: { 'Content-Type': 'application/json' } })

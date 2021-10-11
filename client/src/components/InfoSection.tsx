@@ -68,7 +68,7 @@ export default function InfoSection(props : Props) {
     <div>
       {!error && (
       <div>
-      <li onClick={props.onClick}>{props.sectionTitle}</li>
+      <li className={menuStatus} id="infosection" onClick={props.onClick}>{props.sectionTitle}</li>
       <div className={menuStatus} id="modules">
         <ul>
           {moduleElements}
