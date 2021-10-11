@@ -15,4 +15,4 @@
    * Evelyn- created top navigation bar, designing and stylizing login and home page
    * Shannen- created functions to retrieve/store data in the database, combine text from multiple Prosemirror editors, and export a resume as a pdf
 
-6. Link to video project:
+6. Link to video project: https://youtu.be/AR-HJZPT8pI
