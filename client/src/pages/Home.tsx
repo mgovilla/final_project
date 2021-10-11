@@ -4,6 +4,11 @@ import { useState, useCallback } from 'react'
 import Modal from 'react-modal'
 import { ResumeForm } from '../components/ResumeForm'
 import { Link } from 'react-router-dom'
+import deleteIcon from '../images/deleteIcon.png'
+import addIcon from '../images/addResume.png'
+import { HomeNavBar } from '../components/NavigationBar'
+import './Home.css'
+
 
 export default function Home() {
     const { data: resumes, error, mutate } = useSWR('/resumes', fetcher('GET'))
@@ -17,9 +22,10 @@ export default function Home() {
     }, [mutate])
 
     var handleDelete: React.MouseEventHandler<HTMLButtonElement> = useCallback(async (e) => {
-        console.log('delete new resume')
+        console.log('delete resume: ' + e.currentTarget.getAttribute('id'))
         if (resumes.length > 0) {
-            await EndPoint.deleteResume(resumes[0]._id);
+            var i: string = e.currentTarget.getAttribute('id') || '0'
+            await EndPoint.deleteResume(resumes[parseInt(i)]._id);
         }
         mutate()
         console.log(resumes)
@@ -32,15 +38,28 @@ export default function Home() {
         <div>
             {!error && (
                 <div>
-                    <button onClick={() => setOpen(true)}>"add resume"</button>
+                    <HomeNavBar />
+                    <div className='header'>
+                        <h1>Your Resumes</h1>
+                        <button className='addResume' onClick={() => setOpen(true)}>
+                            Add Resume
+                        </button>
+                    </div>
                     <Modal isOpen={open} contentLabel="Minimal Modal Example">
-                        <button onClick={() => setOpen(false)}>Close Modal</button>
+                        <button onClick={() => setOpen(false)}>
+                            <img src={deleteIcon} alt='close' />
+                        </button>
+                        <h1>New Resume Name</h1>
                         <ResumeForm handleSubmit={handleAdd}></ResumeForm>
                     </Modal>
-                    <button onClick={handleDelete}>"delete resume"</button>
                 </div>
             )}
-            {(!error && resumes) && <ul>{resumes.map((r: any) => <li key={r._id}><Link to={`/remix/${r._id}`}>{r.title}</Link></li>)}</ul>}
+
+            {(!error && resumes) && <ul className='resumeList'>{resumes.map((r: any, i: any) =>
+                <li key={r._id} className="resumeListItem">
+                    <Link to={`/remix/${r._id}`}>{r.title}</Link>
+                    <button className='deleteBtn' id={i} onClick={handleDelete}><img src={deleteIcon} /></button>
+                </li>)}</ul>}
         </div>
     );
 }
