@@ -6,12 +6,7 @@ import useSWR from 'swr'
 import Resume from '../components/Resume';
 import Sidebar from '../components/Sidebar';
 import './Remix.css';
-
-export const ResumeContext = createContext({
-  data: undefined,
-  mutate: () => {}
-})
-export const EditorContext = createContext((json: any) => { })
+import { ResumeContext } from './Context';
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
