@@ -1,9 +1,11 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
+import { KeyedMutator } from 'swr';
 import { ResumeContext } from '../pages/Context';
 import { EndPoint } from '../util/endpoint';
 
 interface Props {
-  module: models.Module
+  module: models.Module,
+  mutateModules: KeyedMutator<any>
 }
 
 export default function Module(props: Props) {
@@ -34,9 +36,9 @@ export default function Module(props: Props) {
     if (data) {
       console.log('delete module: ' + props.module._id);
       await EndPoint.deleteModule(props.module._id);
-      mutate && mutate()
+      props.mutateModules()
     }
-  }, [data, mutate, props.module._id])
+  }, [data, props])
 
   return (
     <li>{props.module.title}<br /><button className="toggleButton" onClick={handleToggle}>Toggle</button><button className="deleteButton" onClick={handleDelete}>Delete</button></li>

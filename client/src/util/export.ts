@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 async function exportPDF() {
     const element: HTMLElement = document.querySelector('.remirror-editor') || new HTMLElement()
 
-    html2canvas(element)
+    html2canvas(element, {backgroundColor:'#FFFFFF'})
         .then((canvas) => {
             const doc = new jsPDF('p', 'pt', 'a4');
             const imgData = canvas.toDataURL('img/png');

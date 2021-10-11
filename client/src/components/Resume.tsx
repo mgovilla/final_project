@@ -16,7 +16,7 @@ const hooks = [
             async function getData() {
                 if (data) {
                     let modules = await EndPoint.getModules(data[0]._id)
-                    let mergedContent = (modules as Array<any>).map(m => m.content.content).flat()
+                    let mergedContent = (modules as Array<any>).sort((a, b) => a.type - b.type).map(m => m.content.content).flat()
                     setContent({type: "doc", content: mergedContent})
                 }
             }

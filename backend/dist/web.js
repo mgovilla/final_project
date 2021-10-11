@@ -253,6 +253,21 @@ app.get('/modules/:moduleID', (req, res) => {
         res.sendStatus(500);
     });
 });
+// Delete a single module
+app.delete('/modules/:moduleID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    client.db('db')
+        .collection('modules')
+        .findOneAndDelete({ _id: new mongodb_1.ObjectId(req.params.moduleID), author_id: req.user._id })
+        .then((mod) => res.send(mod))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
 // Connect to the client
 client.connect((err) => __awaiter(void 0, void 0, void 0, function* () {
     if (err)

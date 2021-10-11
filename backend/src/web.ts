@@ -275,6 +275,23 @@ app.get('/modules/:moduleID', (req, res) => {
         })
 })
 
+// Delete a single module
+app.delete('/modules/:moduleID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    client.db('db')
+        .collection('modules')
+        .findOneAndDelete({ _id: new ObjectId(req.params.moduleID), author_id: req.user._id })
+        .then((mod) => res.send(mod))
+        .catch(err => { 
+            console.log(err); 
+            res.sendStatus(500) 
+        })
+})
+
 // Connect to the client
 client.connect(async err => {
     if (err) throw err

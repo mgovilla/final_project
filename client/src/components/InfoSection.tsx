@@ -47,7 +47,7 @@ export default function InfoSection(props: Props) {
         </Modal>
       </>)
 
-    moduleElements.push(...(modules as models.Module[]).filter((m) => m.type === props.sectionType).map((m) => <Module key={m._id} module={m} />));
+    moduleElements.push(...(modules as models.Module[]).filter((m) => m.type === props.sectionType).map((m) => <Module key={m._id} module={m} mutateModules={mutate}/>));
   }
   return (
     <div>
