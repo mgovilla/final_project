@@ -217,6 +217,7 @@ app.post('/modules', (req, res) => {
         type: req.body.type,
         value: req.body.value,
         in_use: req.body.in_use,
+        author_id: req.user._id
     }
 
     try {
@@ -231,7 +232,7 @@ app.post('/modules', (req, res) => {
 })
 
 
-// Get all modules in database
+// Get all modules owned by user
 app.get('/modules', (req, res) => {
     if (req.user == undefined) {
         res.sendStatus(403)
@@ -240,7 +241,7 @@ app.get('/modules', (req, res) => {
 
     client.db('db')
         .collection('modules')
-        .find({ })
+        .find({ author_id: req.user._id })
         .toArray()
         .then((modules) => res.send(modules))
         .catch(err => {
