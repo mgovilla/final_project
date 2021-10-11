@@ -5,23 +5,7 @@ import { useRemirror, EditorComponent } from "@remirror/react-core";
 import { AllStyledComponent } from "@remirror/styles/emotion";
 import { ResumeContext } from '../pages/Context';
 import { EndPoint } from '../util/endpoint';
-import { useHelpers } from '@remirror/react-core';
 import { wysiwygPreset } from 'remirror/extensions';
-
-const DOC = {
-    type: 'doc',
-    content: [
-        {
-            type: 'paragraph',  
-            content: [
-                {
-                    type: 'text',
-                    text: 'New content',
-                },
-            ],
-        },
-    ],
-};
 
 const hooks = [
     () => {
@@ -33,7 +17,6 @@ const hooks = [
                 if (data) {
                     let modules = await EndPoint.getModules(data[0]._id)
                     let mergedContent = (modules as Array<any>).map(m => m.content.content).flat()
-                    console.log()
                     setContent({type: "doc", content: mergedContent})
                 }
             }

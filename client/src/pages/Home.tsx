@@ -16,7 +16,7 @@ export default function Home() {
 
     var handleAdd = useCallback(async (s: string) => {
         console.log(`create new resume: ${s}`)
-        await EndPoint.newResume({ title: s });
+        await EndPoint.newResume({ title: s, content: [] });
         mutate()
         // redirect to the remix page
     }, [mutate])
