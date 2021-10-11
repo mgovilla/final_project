@@ -215,7 +215,8 @@ app.post('/modules', (req, res) => {
 
     let module = {
         type: req.body.type,
-        value: req.body.value,
+        title: req.body.title,
+        content: req.body.content,
         in_use: req.body.in_use,
         author_id: req.user._id
     }

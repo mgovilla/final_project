@@ -198,8 +198,10 @@ app.post('/modules', (req, res) => {
     }
     let module = {
         type: req.body.type,
-        value: req.body.value,
+        title: req.body.title,
+        content: req.body.content,
         in_use: req.body.in_use,
+        author_id: req.user._id
     };
     try {
         client.db('db')
@@ -212,7 +214,7 @@ app.post('/modules', (req, res) => {
         res.sendStatus(500);
     }
 });
-// Get all modules in database
+// Get all modules owned by user
 app.get('/modules', (req, res) => {
     if (req.user == undefined) {
         res.sendStatus(403);
@@ -220,7 +222,7 @@ app.get('/modules', (req, res) => {
     }
     client.db('db')
         .collection('modules')
-        .find({})
+        .find({ author_id: req.user._id })
         .toArray()
         .then((modules) => res.send(modules))
         .catch(err => {
