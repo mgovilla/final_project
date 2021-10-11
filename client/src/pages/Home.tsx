@@ -3,6 +3,7 @@ import { fetcher, EndPoint } from '../util/endpoint'
 import { useState, useCallback } from 'react'
 import Modal from 'react-modal'
 import { ResumeForm } from '../components/ResumeForm'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
     const { data: resumes, error, mutate } = useSWR('/resumes', fetcher('GET'))
@@ -39,7 +40,7 @@ export default function Home() {
                     <button onClick={handleDelete}>"delete resume"</button>
                 </div>
             )}
-            {(!error && resumes) && <ul>{resumes.map((r: any) => <li key={r._id}>{r.title}</li>)}</ul>}
+            {(!error && resumes) && <ul>{resumes.map((r: any) => <li key={r._id}><Link to={`/remix/${r._id}`}>{r.title}</Link></li>)}</ul>}
         </div>
     );
 }
