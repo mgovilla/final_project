@@ -16,8 +16,19 @@ export const HomeButton = () => (
 
 export default function Logout() {
     const loggingOut =  async() => {
-        fetch("/logout").then()
-        return
+        fetch("/logout", {
+            method: 'get',
+            credentials: 'include'
+        })
+            .then(function(response) {
+                if (response.redirected) {
+                  return window.location.replace(response.url);
+                }
+            
+              }).catch(function(err) {
+                console.log(err);
+              });
+
     }
     return (
             <button className='btn' onClick={loggingOut} style={{font: '18px "Century Gothic", Futura, sans-serif'}}>
