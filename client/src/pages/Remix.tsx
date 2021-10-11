@@ -10,19 +10,15 @@ import { ResumeContext } from './Context';
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
-  const { data, error, mutate } = useSWR(`/resumes/${id}`, fetcher('GET'))
-
-  useEffect(() => {
-    if (data) console.log(data)
-  }, [data])
+  const { data: resume, error, mutate } = useSWR(`/resumes/${id}`, fetcher('GET'))
 
   if (error) return <Redirect to='/'></Redirect>
-  if (!error && !data) return <p>Loading</p>
+  if (!error && !resume) return <p>Loading</p>
 
   return (
     <>
       <NavBar />
-      <ResumeContext.Provider value={{data, mutate}}>
+      <ResumeContext.Provider value={{data: resume, mutate}}>
         <Sidebar />
         <Resume />
       </ResumeContext.Provider>

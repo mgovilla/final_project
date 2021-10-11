@@ -40,20 +40,20 @@ export default function InfoSection(props: Props) {
   if (!error && modules) {
     moduleElements.push(
       <>
-        <li id="addButton" onClick={() => setOpen(true)}>Add Module</li>
+        <li key={'createNewModule'} id="addButton" onClick={() => setOpen(true)}>Add Module</li>
         <Modal isOpen={open} contentLabel="create new module">
           <button id="closeModal" onClick={() => setOpen(false)}>&times;</button>
           <ModuleForm handleSubmit={handleAdd} st={props.sectionType} />
         </Modal>
       </>)
 
-    moduleElements.push(...(modules as models.Module[]).filter((m) => m.type === props.sectionType).map((m) => <Module module={m} />));
+    moduleElements.push(...(modules as models.Module[]).filter((m) => m.type === props.sectionType).map((m) => <Module key={m._id} module={m} />));
   }
   return (
     <div>
       {!error && (
         <div>
-          <li className={menuStatus} id="infosection" onClick={props.onClick}>{props.sectionTitle}</li>
+          <li key={props.sectionTitle} className={menuStatus} id="infosection" onClick={props.onClick}>{props.sectionTitle}</li>
           <div className={menuStatus} id="modules">
             <ul>
               {moduleElements}

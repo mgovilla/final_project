@@ -2,7 +2,7 @@ namespace models {
     declare interface Resume {
         _id: string,
         title: string,
-        content: any
+        content: string[]
     }
     
     declare interface Module { 
