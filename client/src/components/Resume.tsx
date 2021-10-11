@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useCallback } from 'react'
 import { Remirror, useRemirrorContext } from '@remirror/react-core';
 import { ThemeProvider } from "@remirror/react-components";
 import { useRemirror, EditorComponent } from "@remirror/react-core";
@@ -6,6 +6,7 @@ import { AllStyledComponent } from "@remirror/styles/emotion";
 import { ResumeContext } from '../pages/Context';
 import { EndPoint } from '../util/endpoint';
 import { useHelpers } from '@remirror/react-core';
+import { wysiwygPreset } from 'remirror/extensions';
 
 const DOC = {
     type: 'doc',
@@ -30,9 +31,10 @@ const hooks = [
         useEffect(() => {
             async function getData() {
                 if (data) {
-                    let m = await EndPoint.getModules(data[0]._id)
-                    console.log(m[0].content)
-                    setContent(m[0].content)
+                    let modules = await EndPoint.getModules(data[0]._id)
+                    let mergedContent = (modules as Array<any>).map(m => m.content.content).flat()
+                    console.log()
+                    setContent({type: "doc", content: mergedContent})
                 }
             }
             // get the module from the db
@@ -47,12 +49,15 @@ const hooks = [
 //      combines them into a single document
 //      renders a view-only version
 export default function Resume() {
-    const { manager, state, setState } = useRemirror();
+    var extensions = useCallback(() => [...wysiwygPreset()], []);
+    const { manager, state, onChange } = useRemirror({
+        extensions
+    });
 
     return (
         <AllStyledComponent>
             <ThemeProvider>
-                <Remirror manager={manager} hooks={hooks} editable={false} state={state} onChange={() => setState(state)}>
+                <Remirror manager={manager} hooks={hooks} editable={false} state={state} onChange={onChange}>
                     <EditorComponent />
                 </Remirror>
             </ThemeProvider>
