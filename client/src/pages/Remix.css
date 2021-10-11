@@ -1,6 +1,6 @@
   body {
     background-color:  #F2F2F2;
-    color: white;
+    color: black;
     margin: 0;
     box-sizing: border-box;
     font: 14px "Century Gothic", Futura, sans-serif;
@@ -92,6 +92,38 @@
     transform: translateX(-100%);
     transition: transform 300ms;
   }
+
+  #modules {
+    position: absolute;
+    height: calc(100vh - 60px);
+    width: 210px;
+    background-color: lightgray;
+    transform: translateX(100%);
+    transition: transform 300ms;
+  }
+
+  #modules ul {
+    position: absolute;
+    height: calc(100vh - 60px);
+    width: 210px;
+    background-color: lightgray;
+    transform: translateX(0%);
+    transition: transform 300ms;
+  }
+
+  #modules ul {
+    margin-top: 0px;
+    padding: 0px;
+    color: black;
+    list-style-type: none;
+    text-align: left;
+  }
+  #modules li {
+    padding: 30px 0 20px 20px;
+    font-size: 1.5em;
+    border-bottom: 1px solid rgba(0,0,0,.14);
+  }
+
   #menu ul {
     margin-top: 0px;
     padding: 0px;
@@ -106,6 +138,48 @@
   }
   #menu li:last-child {
       border-bottom: none;
+  }
+
+  #menu.isopen {
+    background-color: lightgray;
+  }
+
+  #menu.notopen {
+    background-color: white;
+  }
+
+  #modules {
+    top: 0px;
+    z-index: -1;
+  }
+
+  #modules.isopen {
+    transform: translateX(100%), translateY(0%);
+  }
+
+  #modules.notopen {
+    transform: translateX(-100%);
+  }
+
+  #addButton {
+    color: green;
+  }
+
+  #closeModal {
+    float: right;
+    background-color: red;
+    border-radius: 3px 3px 3px 3px;
+    padding: 5px 10px;
+    border: none;
+  }
+
+  #submitButton {
+    float: right;
+    background-color: green;
+    color: white;
+    border-radius: 3px 3px 3px 3px;
+    padding: 5px 10px;
+    border: none;
   }
   
   .fa {

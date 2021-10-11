@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect, createContext} from 'react';
 import './Remix.css';
-import MenuLinks from "../components/Sidebar";
-import { jsPDF } from "jspdf";
-
 import { Redirect, useParams } from 'react-router';
 import { fetcher } from '../util/endpoint';
 import { NavBar } from '../components/NavigationBar'
 import useSWR from 'swr'
+import Sidebar from '../components/Sidebar';
+
+export const EditorContext = createContext((json: any)=>{})
 
 
 function Remix() {
@@ -20,11 +20,11 @@ function Remix() {
 
   if (error) return <Redirect to='/'></Redirect>
   if (!error && !data) return <p>Loading</p>
-
+  
   return (
     <div>
       <NavBar />
-      <MenuLinks menuStatus="filler" />
+      <Sidebar />
     </div>
   )
 
