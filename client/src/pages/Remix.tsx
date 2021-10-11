@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, createContext} from 'react';
 import './Remix.css';
-import MenuLinks from "../components/Sidebar";
 import { Redirect, useParams } from 'react-router';
-import { fetcher, EndPoint } from '../util/endpoint';
+import { fetcher } from '../util/endpoint';
 import useSWR from 'swr'
 import Sidebar from '../components/Sidebar';
-import Module from '../components/Module';
+
+export const EditorContext = createContext((json: any)=>{})
 
 function Remix () {
   const { id } = useParams<{id?: string}>()

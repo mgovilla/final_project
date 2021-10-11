@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { EditorContext } from "../pages/Remix";
 import Editor from "./Editor";
 
 /* COMPONENT TO CREATE A NEW RESUME */
@@ -9,14 +10,14 @@ declare interface ModuleFormProps{
 
 function ModuleForm(props: ModuleFormProps) {
     let [title, setTitle] = useState("")
-    let [content, setContent] = useState("")
+    let [content, setContent] = useState({})
     
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
         setTitle(e.target.value)
     }, [])
 
-    const handleChange2: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-        setContent(e.target.value)
+    const handleChange2 = useCallback((json) => {
+        setContent(json)
     }, [])
 
     const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
@@ -33,7 +34,9 @@ function ModuleForm(props: ModuleFormProps) {
           <input type="text" placeholder="Module Title" value={title} onChange={handleChange} />
           <br/>
           <br/>
-          <input type="text" placeholder="Content"  value={content} onChange={handleChange2} />
+          <EditorContext.Provider value={handleChange2}>
+            <Editor></Editor>
+          </EditorContext.Provider>
           <br/>
           <button type="submit" id="submitButton" onClick={handleSubmit}>&#10004;</button>
         </form>
