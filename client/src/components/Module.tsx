@@ -17,7 +17,7 @@ class Module extends React.Component<Props, States> {
 
   render() {
     return (
-        <li>{this.props.title}</li>
+      <li>{this.props.title}<br/><button className="toggleButton">Toggle</button><button className="deleteButton">Delete</button></li>
     )
   }
 }

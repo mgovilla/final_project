@@ -157,6 +157,14 @@
     transform: translateX(100%), translateY(0%);
   }
 
+  #infosection.isopen {
+    background-color: lightgray;
+  }
+
+  #infosection.notopen {
+    background-color: white;
+  }
+
   #modules.notopen {
     transform: translateX(-100%);
   }
@@ -180,6 +188,28 @@
     border-radius: 3px 3px 3px 3px;
     padding: 5px 10px;
     border: none;
+  }
+
+  .toggleButton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+  }
+
+  .deleteButton {
+    background-color: red; /* Green */
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
   }
   
   .fa {
