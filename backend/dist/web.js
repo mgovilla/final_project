@@ -166,7 +166,7 @@ app.delete('/resumes/:resumeID', (req, res) => {
     });
 });
 // Get all modules in a resume
-app.get('/modules/:resumeID', (req, res) => {
+app.get('/resumes/:resumeID/modules', (req, res) => {
     if (req.user == undefined) {
         res.sendStatus(403);
         return;
@@ -224,6 +224,29 @@ app.get('/modules', (req, res) => {
         .collection('modules')
         .find({ author_id: req.user._id })
         .toArray()
+        .then((modules) => res.send(modules))
+        .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    });
+});
+// Get a single module by ID
+app.get('/modules/:moduleID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403);
+        return;
+    }
+    var id;
+    try {
+        id = new mongodb_1.ObjectId(req.params.moduleID);
+    }
+    catch (e) {
+        res.sendStatus(400);
+        return;
+    }
+    client.db('db')
+        .collection('modules')
+        .findOne({ _id: id, author_id: req.user._id })
         .then((modules) => res.send(modules))
         .catch(err => {
         console.log(err);

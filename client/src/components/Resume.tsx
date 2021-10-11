@@ -4,6 +4,8 @@ import { ThemeProvider } from "@remirror/react-components";
 import { useRemirror, EditorComponent } from "@remirror/react-core";
 import { AllStyledComponent } from "@remirror/styles/emotion";
 import { ResumeContext } from '../pages/Context';
+import { EndPoint } from '../util/endpoint';
+import { useHelpers } from '@remirror/react-core';
 
 const DOC = {
     type: 'doc',
@@ -26,8 +28,16 @@ const hooks = [
         const { data } = useContext(ResumeContext)
 
         useEffect(() => {
-            console.log(data)
-            setContent(DOC)
+            async function getData() {
+                if (data) {
+                    let m = await EndPoint.getModules(data[0]._id)
+                    console.log(m[0].content)
+                    setContent(m[0].content)
+                }
+            }
+            // get the module from the db
+            getData()
+
         }, [setContent, data])
     }
 ]
