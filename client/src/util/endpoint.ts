@@ -46,8 +46,8 @@ class EndPoint {
   }
 
   //get all modules linked to a specified resume
-  async getModules(resumeID: string) {
-    let response = await fetch(`/modules/${resumeID}`, { credentials: 'include', headers: { 'Content-Type': 'application/json' } })
+  static async getModules(resumeID: string) {
+    let response = await fetch(`/resumes/${resumeID}/modules`, { credentials: 'include', headers: { 'Content-Type': 'application/json' } })
     let modules = await response.json()
 
     return modules
@@ -55,7 +55,7 @@ class EndPoint {
 
   //delete a resume using the resume ID
   static async deleteModule(resumeID: string) {
-    let response = await fetch(`/resumes/${resumeID}`, { credentials: 'include', method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+    let response = await fetch(`/modules/${resumeID}`, { credentials: 'include', method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
 
     return response
   }

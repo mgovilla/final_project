@@ -8,11 +8,11 @@ const mySchema = new Schema({
     marks: schema.spec.marks
   })
 
-const combineContents = (contents: Array<EditorState.EditorState>) => {
+const combineContents = (contents: any[]) => {
     const div = document.createElement('div')
     
-    contents.forEach((state) => {
-        const content = DOMSerializer.fromSchema(schema).serializeFragment(state.doc.content)
+    contents.forEach((c) => {
+        const content = DOMSerializer.fromSchema(schema).serializeFragment(c)
         div.appendChild(content)
     })
 

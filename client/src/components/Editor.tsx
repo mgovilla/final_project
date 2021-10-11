@@ -7,7 +7,7 @@ import { AllStyledComponent } from '@remirror/styles/emotion';
 import { ProsemirrorNode } from 'prosemirror-suggest';
 
 import { debounce } from '../util/debounce';
-import { EditorContext } from '../pages/Remix';
+import { EditorContext } from '../pages/Context';
 
 const DEBOUNCE_SAVE_DELAY_MS = 250;
 
@@ -44,7 +44,7 @@ const hooks = [
     }
 ];
 
-declare interface EditorProps{
+declare interface EditorProps {
     initialContent?: any
 }
 

@@ -1,31 +1,28 @@
-import { useEffect, createContext} from 'react';
-import './Remix.css';
+import { useEffect, createContext } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { fetcher } from '../util/endpoint';
 import { NavBar } from '../components/NavigationBar'
 import useSWR from 'swr'
+import Resume from '../components/Resume';
 import Sidebar from '../components/Sidebar';
-
-export const EditorContext = createContext((json: any)=>{})
-
+import './Remix.css';
+import { ResumeContext } from './Context';
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
-  const { data, error } = useSWR(`/resumes/${id}`, fetcher('GET'))
-
-
-  useEffect(() => {
-    if (data) console.log(data)
-  }, [data])
+  const { data: resume, error, mutate } = useSWR(`/resumes/${id}`, fetcher('GET'))
 
   if (error) return <Redirect to='/'></Redirect>
-  if (!error && !data) return <p>Loading</p>
-  
+  if (!error && !resume) return <p>Loading</p>
+
   return (
-    <div>
+    <>
       <NavBar />
-      <Sidebar />
-    </div>
+      <ResumeContext.Provider value={{data: resume, mutate}}>
+        <Sidebar />
+        <Resume />
+      </ResumeContext.Provider>
+    </>
   )
 
 }

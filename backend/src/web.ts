@@ -179,7 +179,7 @@ app.delete('/resumes/:resumeID', (req, res) => {
 })
 
 // Get all modules in a resume
-app.get('/modules/:resumeID', (req, res) => {
+app.get('/resumes/:resumeID/modules', (req, res) => {
     if (req.user == undefined) {
         res.sendStatus(403)
         return
@@ -215,7 +215,8 @@ app.post('/modules', (req, res) => {
 
     let module = {
         type: req.body.type,
-        value: req.body.value,
+        title: req.body.title,
+        content: req.body.content,
         in_use: req.body.in_use,
         author_id: req.user._id
     }
@@ -230,7 +231,6 @@ app.post('/modules', (req, res) => {
         res.sendStatus(500)
     }
 })
-
 
 // Get all modules owned by user
 app.get('/modules', (req, res) => {
@@ -247,6 +247,48 @@ app.get('/modules', (req, res) => {
         .catch(err => {
             console.log(err); 
             res.sendStatus(500)
+        })
+})
+
+// Get a single module by ID
+app.get('/modules/:moduleID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    var id : ObjectId
+    try {
+        id = new ObjectId(req.params.moduleID)
+    } catch(e) {
+        res.sendStatus(400)
+        return
+    }
+
+    client.db('db')
+        .collection('modules')
+        .findOne({ _id: id,  author_id: req.user._id })
+        .then((modules) => res.send(modules))
+        .catch(err => {
+            console.log(err); 
+            res.sendStatus(500)
+        })
+})
+
+// Delete a single module
+app.delete('/modules/:moduleID', (req, res) => {
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    client.db('db')
+        .collection('modules')
+        .findOneAndDelete({ _id: new ObjectId(req.params.moduleID), author_id: req.user._id })
+        .then((mod) => res.send(mod))
+        .catch(err => { 
+            console.log(err); 
+            res.sendStatus(500) 
         })
 })
 

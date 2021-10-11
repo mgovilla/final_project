@@ -1,6 +1,10 @@
 body{
     color: #686868
 }
+
+.loginPage{
+    text-align: center;
+}
 h1{
     color: #175c9c;
 }
