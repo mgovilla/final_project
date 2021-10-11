@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { EditorContext } from "../pages/Remix";
+import { EditorContext } from "../pages/Context";
 import Editor from "./Editor";
 
 /* COMPONENT TO CREATE A NEW RESUME */

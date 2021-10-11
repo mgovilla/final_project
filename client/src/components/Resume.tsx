@@ -3,13 +3,13 @@ import { Remirror, useRemirrorContext } from '@remirror/react-core';
 import { ThemeProvider } from "@remirror/react-components";
 import { useRemirror, EditorComponent } from "@remirror/react-core";
 import { AllStyledComponent } from "@remirror/styles/emotion";
-import { ResumeContext } from '../pages/Remix';
+import { ResumeContext } from '../pages/Context';
 
 const DOC = {
     type: 'doc',
     content: [
         {
-            type: 'paragraph',
+            type: 'paragraph',  
             content: [
                 {
                     type: 'text',
