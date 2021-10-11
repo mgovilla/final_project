@@ -1,5 +1,7 @@
 import React from 'react';
 import { ResumeContext } from '../pages/Context';
+import { EndPoint } from '../util/endpoint';
+
 
 interface Props {
   module: models.Module
@@ -9,14 +11,22 @@ interface States {
 }
 
 class Module extends React.Component<Props, States> {
+  static contextType = ResumeContext
+  context!: React.ContextType<typeof ResumeContext>
+  
   constructor(props : Props) {
     super(props)
     this.state = {
     }
     this.handleToggle = this.handleToggle.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
-  static contextType = ResumeContext
-  context!: React.ContextType<typeof ResumeContext>
+
+  handleDelete: React.MouseEventHandler<HTMLButtonElement> = (async () => {
+    console.log('delete module: ' + module.id);
+    await EndPoint.deleteModule(module.id);
+  });
+
   // Toggle the module to be in the resume or not
   handleToggle() {
     console.log(this.context.data)
