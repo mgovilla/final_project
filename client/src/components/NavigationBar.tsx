@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import '../util/export'
+import exportPDF from '../util/export';
 
 var bgColors = {
     "DarkBlue": "#175C9C",
@@ -14,60 +16,69 @@ export const HomeButton = () => (
     </div>
 )
 
+export const ExportButton = () => (
+    <div >
+        <button className='btn' onClick={exportPDF} style={{ font: '18px "Century Gothic", Futura, sans-serif' }}>
+            Export
+        </button>
+    </div>
+)
+
 export default function Logout() {
-    const loggingOut =  async() => {
+    const loggingOut = async () => {
         fetch("/logout", {
             method: 'get',
             credentials: 'include'
         })
-            .then(function(response) {
+            .then(function (response) {
                 if (response.redirected) {
-                  return window.location.replace(response.url);
+                    return window.location.replace(response.url);
                 }
-            
-              }).catch(function(err) {
+
+            }).catch(function (err) {
                 console.log(err);
-              });
+            });
 
     }
     return (
-            <button className='btn' onClick={loggingOut} style={{font: '18px "Century Gothic", Futura, sans-serif'}}>
-                Log out
-            </button>
+        <button className='btn' onClick={loggingOut} style={{ font: '18px "Century Gothic", Futura, sans-serif' }}>
+            Log out
+        </button>
     )
 }
 
 
-    export const NavBar = () => (
-        <div style={{
-            backgroundColor: bgColors.DarkBlue,
-            width: '100%',
-            height: '60px',
+export const NavBar = () => (
+    <div style={{
+        backgroundColor: bgColors.DarkBlue,
+        width: '100%',
+        height: '60px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }}>
+        <HomeButton />
+        <div className="divRight" style={{
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center'
         }}>
-            <HomeButton />
-            <div className="divRight" style={{
-                display: 'flex',
-                alignItems: 'center'
-            }}>
-                <Logout />
-            </div>
-        </div >
+            <ExportButton />
+            <Logout />
+        </div>
+    </div >
 
-    )
+)
 
-    export const HomeNavBar = () => (
-        <div style={{
-            backgroundColor: bgColors.DarkBlue,
-            width: '100%',
-            height: '60px',
-        }}>
-            <div style={{ float: 'right' }}>
-                <Logout />
-            </div>
+export const HomeNavBar = () => (
+    <div style={{
+        backgroundColor: bgColors.DarkBlue,
+        width: '100%',
+        height: '60px',
+    }}>
+        <div style={{ float: 'right' }}>
+            <Logout />
+        </div>
 
 
-        </div >
-    )
+    </div >
+)
