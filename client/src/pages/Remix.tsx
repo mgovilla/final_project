@@ -4,6 +4,7 @@ import MenuLinks from "../components/Sidebar";
 import { Redirect, useParams } from 'react-router';
 import { fetcher } from '../util/endpoint';
 import useSWR from 'swr'
+import Sidebar from '../components/Sidebar';
 
 function Remix () {
   const { id } = useParams<{id?: string}>()
@@ -17,7 +18,7 @@ function Remix () {
   if (!error && !data) return <p>Loading</p>
 
   return (
-    <MenuLinks menuStatus="filler"/>
+    <Sidebar />
   )
 }
 

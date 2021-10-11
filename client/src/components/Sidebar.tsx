@@ -1,49 +1,90 @@
 import React from 'react';
+import InfoSection from './InfoSection';
 
 interface Props {
-  menuStatus: string;
 }
 
 interface States {
-  links: {text: string; link: string}[];
+  active: number
 }
 
-class MenuLinks extends React.Component<Props, States> {
-  constructor(props : Props) {
+const CIplaceholderModules = [
+  "Add CI Module",
+  "CI Placeholder Module 1",
+  "CI Placeholder Module 2",
+  "CI Placeholder Module 3"
+]
+
+const objplaceholderModules = [
+  "Add Obj Module",
+  "obj Placeholder Module 1",
+  "obj Placeholder Module 2",
+  "obj Placeholder Module 3"
+]
+
+const edplaceholderModules = [
+  "Add Edu Module",
+  "ed Placeholder Module 1",
+  "ed Placeholder Module 2",
+  "ed Placeholder Module 3"
+]
+
+const WEplaceholderModules = [
+  "Add Work Module",
+  "WE Placeholder Module 1",
+  "WE Placeholder Module 2",
+  "WE Placeholder Module 3"
+]
+
+const skplaceholderModules = [
+  "Add Skill Module",
+  "sk Placeholder Module 1",
+  "sk Placeholder Module 2",
+  "sk Placeholder Module 3"
+]
+
+const AEplaceholderModules = [
+  "Add AE Module",
+  "AE Placeholder Module 1",
+  "AE Placeholder Module 2",
+  "AE Placeholder Module 3"
+]
+
+const sectionTitles = [
+  "Contact Info",
+  "Objective",
+  "Education",
+  "Work Experience",
+  "Skills",
+  "Additional Experience"
+]
+const pms = [
+  CIplaceholderModules,
+  objplaceholderModules,
+  edplaceholderModules,
+  WEplaceholderModules,
+  skplaceholderModules,
+  AEplaceholderModules
+]
+
+class Sidebar extends React.Component<Props, States> {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      links: [{
-        text: 'Contact Info',
-        link: ''
-      }, {
-        text: 'Objective',
-        link: ''
-      }, {
-        text: 'Education',
-        link: ''
-      }, {
-        text: 'Work Experience',
-        link: ''
-      }, {
-        text: 'Skills',
-        link: ''
-      }, {
-        text: 'Additional Experience',
-        link: ''
-      }]
+      active: 0
     }
   }
 
   render() {
-    let links = this.state.links.map((link, i) => <li ref={(i + 1).toString()}><i aria-hidden="true"></i><a href={link.link} target="_blank" rel="noreferrer">{link.text}</a></li>);
+    let infosections = pms.map((pm, i) => <InfoSection onClick={() => this.setState({ active: i })} isOpen={i == this.state.active} sectionTitle={sectionTitles[i]} moduleContent={pms[i]} />);
     return (
-      <div className={this.props.menuStatus} id='menu'>
+      <div id="menu">
         <ul>
-          { links }
+          {infosections}
         </ul>
       </div>
     )
   }
 }
 
-export default MenuLinks;
+export default Sidebar;
