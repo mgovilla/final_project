@@ -62,9 +62,6 @@ html, body {
 
 /* ------------- Modal formatting -----------*/
 
-.ReactModal__Content--after-open {
-    height: 150px;
-}
 
 .ReactModal__Content--after-open>button {
     float: right;
