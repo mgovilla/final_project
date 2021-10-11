@@ -3,9 +3,8 @@ import Modal from 'react-modal';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
 import { EndPoint, fetcher } from '../util/endpoint';
-import Editor from './Editor';
-import Module from './Module';
 import { ModuleForm } from './ModuleForm';
+import Module from './Module'
 
 
 interface Props {
@@ -22,61 +21,47 @@ interface States {
 }
 */
 
-export default function InfoSection(props : Props) {
-
+export default function InfoSection(props: Props) {
   const { data: modules, mutate, error } = useSWR('/modules', fetcher('GET'))
   const [open, setOpen] = useState(false)
 
-  var handleAdd = useCallback(async (t: number, s: string, e : any) => {
+  var handleAdd = useCallback(async (t: number, s: string, e: any) => {
     console.log(`create new module: ${s}`)
-    await EndPoint.newModule({type: t, value: {title: s, content: e }});
+    await EndPoint.newModule({ type: t, title: s, content: e, in_use: false });
     setOpen(false)
     mutate()
     // redirect to the remix page
   }, [mutate])
 
+  if (!error && !modules) return <p>Loading</p>
+
   let menuStatus = props.isOpen ? 'isopen' : 'notopen';
   let moduleElements: JSX.Element[] = [];
-  moduleElements.push(
-    <>
-      <li id="addButton" onClick={() => setOpen(true)}>Add Module</li>
-      <Modal isOpen={open} contentLabel="create new module">
-        <button id="closeModal" onClick={() => setOpen(false)}>&times;</button>
-        <ModuleForm handleSubmit={ handleAdd } st={props.sectionType} />
-      </Modal>
-    </>)
-  let formattedModules: any[] = [];
-  /*
-  for (var j = 0; j < modules.length; j++) {
-    if (modules[j].type == props.sectionType) {
-      moduleThings.push(modules[j]);
-    }
-  }
-  */
   if (!error && modules) {
-    console.log(modules.length)
-    for (var j = 0; j < modules.length; j++) {
-      if (modules[j].type == props.sectionType) {
-        formattedModules.push(modules[j])
-        console.log(formattedModules)
-      }
-    }
+    moduleElements.push(
+      <>
+        <li id="addButton" onClick={() => setOpen(true)}>Add Module</li>
+        <Modal isOpen={open} contentLabel="create new module">
+          <button id="closeModal" onClick={() => setOpen(false)}>&times;</button>
+          <ModuleForm handleSubmit={handleAdd} st={props.sectionType} />
+        </Modal>
+      </>)
+
+    moduleElements.push(...(modules as models.Module[]).filter((m) => m.type === props.sectionType).map((m) => <Module module={m} />));
   }
-  moduleElements.push(...formattedModules.map((fm, i) => <Module title={formattedModules[i].value.title} content={""} />));
-  if (!error && !modules) return <p>Loading</p>
-  else return (
+  return (
     <div>
       {!error && (
-      <div>
-      <li className={menuStatus} id="infosection" onClick={props.onClick}>{props.sectionTitle}</li>
-      <div className={menuStatus} id="modules">
-        <ul>
-          {moduleElements}
-        </ul>
-      </div>
-      </div>
+        <div>
+          <li className={menuStatus} id="infosection" onClick={props.onClick}>{props.sectionTitle}</li>
+          <div className={menuStatus} id="modules">
+            <ul>
+              {moduleElements}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   )
 }
-  
+

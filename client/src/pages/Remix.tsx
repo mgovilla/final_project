@@ -7,12 +7,15 @@ import Resume from '../components/Resume';
 import Sidebar from '../components/Sidebar';
 import './Remix.css';
 
-export const ResumeContext = createContext({})
+export const ResumeContext = createContext({
+  data: undefined,
+  mutate: () => {}
+})
 export const EditorContext = createContext((json: any) => { })
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
-  const { data, error } = useSWR(`/resumes/${id}`, fetcher('GET'))
+  const { data, error, mutate } = useSWR(`/resumes/${id}`, fetcher('GET'))
 
   useEffect(() => {
     if (data) console.log(data)
@@ -24,8 +27,8 @@ function Remix() {
   return (
     <>
       <NavBar />
-      <Sidebar />
-      <ResumeContext.Provider value={data}>
+      <ResumeContext.Provider value={{data, mutate}}>
+        <Sidebar />
         <Resume />
       </ResumeContext.Provider>
     </>

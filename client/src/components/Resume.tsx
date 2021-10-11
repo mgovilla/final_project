@@ -23,8 +23,8 @@ const DOC = {
 const hooks = [
     () => {
         const { setContent } = useRemirrorContext();
-        const data = useContext(ResumeContext)
-        
+        const { data } = useContext(ResumeContext)
+
         useEffect(() => {
             console.log(data)
             setContent(DOC)

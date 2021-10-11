@@ -1,8 +1,8 @@
 import React from 'react';
+import { ResumeContext } from '../pages/Remix';
 
 interface Props {
-  title: string;
-  content: string;
+  module: models.Module
 }
 
 interface States {
@@ -13,13 +13,19 @@ class Module extends React.Component<Props, States> {
     super(props)
     this.state = {
     }
+    this.handleToggle = this.handleToggle.bind(this)
+  }
+  // static contextType = ResumeContext
+  // declare context: React.ContextType<typeof ResumeContext>
+
+  // Toggle the module to be in the resume or not
+  handleToggle() {
   }
 
   render() {
     return (
-      <li>{this.props.title}<br/><button className="toggleButton">Toggle</button><button className="deleteButton">Delete</button></li>
+      <li>{this.props.module.title}<br/><button className="toggleButton" onClick={this.handleToggle}>Toggle</button><button className="deleteButton">Delete</button></li>
     )
   }
 }
-
 export default Module;
