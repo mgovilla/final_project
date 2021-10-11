@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { wysiwygPreset } from 'remirror/extensions';
 import { EditorComponent, Remirror, useHelpers, useKeymap, useRemirror, ThemeProvider, useEditorState } from '@remirror/react';
 import { TopToolbar, BubbleMenu } from './Menu'
@@ -7,6 +7,7 @@ import { AllStyledComponent } from '@remirror/styles/emotion';
 import { ProsemirrorNode } from 'prosemirror-suggest';
 
 import { debounce } from '../util/debounce';
+import { EditorContext } from '../pages/Remix';
 
 const DEBOUNCE_SAVE_DELAY_MS = 250;
 
@@ -30,10 +31,11 @@ const hooks = [
     },
     () => {
         const { doc } = useEditorState()
+        const useJSON = useContext(EditorContext)
 
         const debouncedSave = useCallback(
             debounce(async (newDoc: ProsemirrorNode<any>) => {
-                console.log(newDoc.toJSON())
+                useJSON(newDoc.toJSON())
             }, DEBOUNCE_SAVE_DELAY_MS), []);
 
         useEffect(() => {

@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import './Remix.css';
-import MenuLinks from "../components/Sidebar";
+import { useEffect, createContext } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { fetcher } from '../util/endpoint';
+import { NavBar } from '../components/NavigationBar'
 import useSWR from 'swr'
 import Resume from '../components/Resume';
-import { createContext } from "react"
+import Sidebar from '../components/Sidebar';
+import './Remix.css';
 
 export const ResumeContext = createContext({})
+export const EditorContext = createContext((json: any) => { })
 
 function Remix() {
   const { id } = useParams<{ id?: string }>()
@@ -22,12 +23,14 @@ function Remix() {
 
   return (
     <>
-      <MenuLinks menuStatus="filler" />
+      <NavBar />
+      <Sidebar />
       <ResumeContext.Provider value={data}>
         <Resume />
       </ResumeContext.Provider>
     </>
   )
+
 }
 
 export default Remix;

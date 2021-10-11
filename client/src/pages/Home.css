@@ -1,0 +1,115 @@
+html, body {
+    background: #eeeeee;
+}
+
+.header{
+    margin: 2rem;
+}
+
+.header > h1 {
+    color: #686868;
+    margin: auto;
+    display: inline-block;
+}
+
+.addResume {
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #c2c2c2;
+    box-shadow: 5px 5px 5px #00000005;
+    margin: 10px;
+    font: 14px "Century Gothic", Futura, sans-serif;
+    float: right
+}
+
+.addResume:hover {
+    background-color: #e0e0e0;
+}
+
+.deleteBtn {
+    border: 0;
+    background-color: transparent;
+}
+
+/* ----------- Resume List --------------*/
+
+.resumeList {
+    padding: 2rem;
+}
+
+.resumeListItem {
+    height: 3rem;
+    border-radius: 5px;
+    background-color: #ffffff;
+    align-items: left;
+    box-shadow: 5px 5px 5px #00000005;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    list-style-type: none;
+}
+
+.resumeListItem>a {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.resumeListItem>button {
+    margin-right: 5px;
+    float: right;
+}
+
+/* ------------- Modal formatting -----------*/
+
+.ReactModal__Content--after-open {
+    height: 150px;
+}
+
+.ReactModal__Content--after-open>button {
+    float: right;
+    background-color: transparent;
+    border: 0;
+}
+
+.ReactModal__Content--after-open>form>label>input {
+    margin: 10px;
+    width: 70%;
+    background-color: transparent;
+    border-radius: 3px;
+}
+
+.ReactModal__Content--after-open>form>button {
+    margin: 10px;
+    border-radius: 3px;
+    font: 14px "Century Gothic", Futura, sans-serif;
+}
+
+.ReactModal__Content--after-open>h1 {
+    color: #686868;
+}
+
+/* --------Navigation Bar Elements------------*/
+
+.btn {
+    background-color: #175c9c;
+    border: 0;
+    font-size: 18px;
+    color: #ffffff;
+    width: 6rem;
+    border-radius: 10px;
+    text-align: center;
+    margin: 1rem;
+}
+
+.btn:hover {
+    background-color: #2769a7;
+}
+
+.btn>a {
+    text-decoration: none;
+}
+
+.btn>a:visited {
+    color: #ffffff;
+}
