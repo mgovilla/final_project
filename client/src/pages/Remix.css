@@ -3,6 +3,7 @@
     color: black;
     margin: 0;
     box-sizing: border-box;
+    font: 14px "Century Gothic", Futura, sans-serif;
   } 
   
   .menubar {
@@ -200,10 +201,6 @@
     }
   }
   
-  body {
-      font: 14px "Century Gothic", Futura, sans-serif;
-      margin: 20px;
-    }
     
     ol, ul {
       padding-left: 30px;
