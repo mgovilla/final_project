@@ -2,32 +2,33 @@ import React, { useCallback, useContext, useState } from 'react';
 import { KeyedMutator } from 'swr';
 import { ResumeContext } from '../pages/Context';
 import { EndPoint } from '../util/endpoint';
-
+import { useSWRConfig } from 'swr'
 interface Props {
   module: models.Module,
   mutateModules: KeyedMutator<any>
 }
 
 export default function Module(props: Props) {
-  const { data, mutate } = useContext(ResumeContext)
+  const { resume: data } = useContext(ResumeContext)
+  const { mutate } = useSWRConfig()
 
   // Toggle the module to be in the resume or not
   const handleToggle = useCallback(async () => {
     if (data) {
-      let c = data[0].content.indexOf(props.module._id)
+      let c = data.content.indexOf(props.module._id)
       // the id exits in the resume content
       if (c >= 0) {
         // remove it
-        data[0].content.splice(c, 1)
-        await EndPoint.updateResume(data[0]._id, data[0].content)
+        data.content.splice(c, 1)
+        await EndPoint.updateResume(data._id, data.content)
       } else {
         // else add it
-        data[0].content.push(props.module._id)
-        await EndPoint.updateResume(data[0]._id, data[0].content)
+        data.content.push(props.module._id)
+        await EndPoint.updateResume(data._id, data.content)
       }
 
-      mutate && mutate()
-      console.log(data[0])
+      // tell SWR that we need to refresh the module data
+      mutate(`/resumes/${data._id}/modules`)
     }
   }, [data, mutate, props.module._id])
 

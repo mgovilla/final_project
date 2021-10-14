@@ -1,11 +1,8 @@
-import React, { createContext } from "react"
-import { KeyedMutator } from "swr"
+import { createContext } from "react"
 
 declare interface typeResumeContext {
-  data?: models.Resume[];
-  mutate?: KeyedMutator<any>
+  resume: models.Resume;
 }
 
-export const ResumeContext = createContext<typeResumeContext>({})
-
+export const ResumeContext = createContext<typeResumeContext>({resume : {_id: "", content: [""], title: ""}})
 export const EditorContext = createContext((json: any) => { })

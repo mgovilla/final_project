@@ -4,26 +4,25 @@ import { ThemeProvider } from "@remirror/react-components";
 import { useRemirror, EditorComponent } from "@remirror/react-core";
 import { AllStyledComponent } from "@remirror/styles/emotion";
 import { ResumeContext } from '../pages/Context';
-import { EndPoint } from '../util/endpoint';
+import { fetcher } from '../util/endpoint';
 import { wysiwygPreset } from 'remirror/extensions';
+import useSWR from 'swr';
 
 const hooks = [
     () => {
         const { setContent } = useRemirrorContext();
-        const { data } = useContext(ResumeContext)
+        const { resume } = useContext(ResumeContext)
+        const { data: modules, error } = useSWR(`/resumes/${resume._id}/modules`, fetcher('GET'))
 
         useEffect(() => {
-            async function getData() {
-                if (data) {
-                    let modules = await EndPoint.getModules(data[0]._id)
-                    let mergedContent = (modules as Array<any>).sort((a, b) => a.type - b.type).map(m => m.content.content).flat()
-                    setContent({type: "doc", content: mergedContent})
-                }
-            }
-            // get the module from the db
-            getData()
+            if (!modules || error) return
 
-        }, [setContent, data])
+            if (modules && !error) {
+                let mergedContent = (modules as Array<models.Module>).sort((a, b) => a.type - b.type).map(m => m.content.content).flat()
+                setContent({ type: "doc", content: mergedContent })
+            }
+
+        }, [setContent, error, modules])
     }
 ]
 

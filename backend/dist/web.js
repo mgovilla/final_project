@@ -104,9 +104,8 @@ app.get('/resumes/:resumeID', (req, res) => {
     }
     client.db('db')
         .collection('resumes')
-        .find({ _id: id, author_id: req.user._id })
-        .toArray()
-        .then((resumes) => res.send(resumes))
+        .findOne({ _id: id, author_id: req.user._id })
+        .then((resume) => res.send(resume))
         .catch(err => {
         console.log(err);
         res.sendStatus(500);
